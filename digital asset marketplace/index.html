@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Digital Asset Marketplace</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Auth Container -->
+  <div id="authContainer" class="auth-container">
+    <div class="auth-box">
+      <div class="auth-tabs">
+        <div class="auth-tab active" data-tab="login">🔐 Login</div>
+        <div class="auth-tab" data-tab="signup">✨ Sign Up</div>
+      </div>
+      
+      <!-- Login Form -->
+      <form id="loginForm" class="auth-form">
+        <div class="row">
+          <label>👤 Username:</label>
+          <input type="text" id="loginUsername" placeholder="Enter username" required>
+        </div>
+        <div class="row">
+          <label>🔑 Password:</label>
+          <input type="password" id="loginPassword" placeholder="Enter password" required>
+        </div>
+        <div id="loginError" class="error-text"></div>
+        <div class="row">
+          <button type="button" id="loginBtn" class="btn">Log In ✅</button>
+        </div>
+        <div class="auth-switch">
+          <span class="muted">Don't have an account? </span>
+          <a id="switchToSignup">Sign up here</a>
+        </div>
+      </form>
+      
+      <!-- Signup Form -->
+      <form id="signupForm" class="auth-form hidden">
+        <div class="row">
+          <label>👤 Username:</label>
+          <input type="text" id="signupUsername" placeholder="Choose username" required>
+        </div>
+        <div class="row">
+          <label>🔑 Password:</label>
+          <input type="password" id="signupPassword" placeholder="Choose password" required>
+        </div>
+        <div id="signupError" class="error-text"></div>
+        <div class="row">
+          <button type="button" id="signupBtn" class="btn">Create Account 🚀</button>
+        </div>
+        <div class="auth-switch">
+          <span class="muted">Already have an account? </span>
+          <a id="switchToLogin">Log in here</a>
+        </div>
+      </form>
+      
+      <!-- Reveal All Users Section -->
+      <div class="auth-reveal">
+        <div class="hint">🔐 Admin Panel - PIN Protected</div>
+        <button id="revealUsersBtn" class="btn outline small">🔐 Reveal All Users & Passwords</button>
+        <div id="userList" class="user-list" style="display:none;"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main App Content -->
+  <div id="appContent" style="display:none;">
+    <header class="app-header">
+      <h1>🪙 Digital Asset Marketplace</h1>
+      <div class="crypto-ticker">
+        <span class="ticker-label">Live Prices:</span>
+        <span class="ticker-item">COIN: $1.00 ⬆️ 2.5%</span>
+        <span class="ticker-item">BTC: $43,250 ⬇️ 1.2%</span>
+        <span class="ticker-item">ETH: $2,650 ⬆️ 0.8%</span>
+        <span class="ticker-item">Block: <span id="blockNumber">#1</span></span>
+      </div>
+      <div class="right">
+        <button id="helpBtn" class="btn outline">❓ Help</button>
+        <button id="logoutBtn" class="btn danger">Logout</button>
+      </div>
+    </header>
+
+    <main class="grid">
+      <!-- Live Stats Section -->
+      <section id="liveStats" class="card" style="grid-column: span 12;">
+        <h2>📊 Live Stats</h2>
+        <div class="stats-grid">
+          <div class="stat-item">
+            <div class="stat-label">Total Users</div>
+            <div class="stat-value" id="totalUsers">0</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-label">Assets Minted</div>
+            <div class="stat-value" id="totalAssets">0</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-label">Blocks Mined</div>
+            <div class="stat-value" id="totalBlocks">0</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-label">Market Cap</div>
+            <div class="stat-value">$0</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Wallet Section -->
+      <section class="card">
+        <h2>💼 Wallet</h2>
+        <div class="row">
+          <label>Account:</label>
+          <select id="accountSelect"></select>
+        </div>
+        <div class="row">
+          <label>Address:</label>
+          <span id="acctAddr" class="muted">-</span>
+        </div>
+        <div class="row">
+          <label>Balance:</label>
+          <span id="acctBal" class="price-tag">0.00 COIN</span>
+        </div>
+        <div class="row">
+          <button id="faucetBtn" class="btn outline">Get 50 COIN (Faucet)</button>
+          <button id="createAccountBtn" class="btn outline">Create Account</button>
+        </div>
+        <div class="row">
+          <button id="explorerBtn" class="btn outline">Blockchain Explorer</button>
+          <button id="deleteAccountBtn" class="btn danger">Delete Account</button>
+        </div>
+      </section>
+
+      <!-- Mint Asset Section -->
+      <section class="card">
+        <h2>🎨 Mint Asset</h2>
+        <div class="mint-form">
+          <div class="row">
+            <label>Name:</label>
+            <input type="text" id="mintName" placeholder="Asset name" required>
+          </div>
+          <div class="row">
+            <label>Description:</label>
+            <textarea id="mintDesc" placeholder="Asset description"></textarea>
+          </div>
+          <div class="row">
+            <label>Image URL:</label>
+            <input type="url" id="mintImg" placeholder="https://example.com/image.jpg">
+          </div>
+          <div class="row">
+            <label>Category:</label>
+            <select id="mintCategory">
+              <option value="art">🎨 Art</option>
+              <option value="music">🎵 Music</option>
+              <option value="gaming">🎮 Gaming</option>
+              <option value="collectible">🏆 Collectible</option>
+              <option value="utility">🔧 Utility</option>
+              <option value="other">📦 Other</option>
+            </select>
+          </div>
+          <div class="row">
+            <label>Rarity:</label>
+            <select id="mintRarity">
+              <option value="common">Common</option>
+              <option value="rare">Rare</option>
+              <option value="epic">Epic</option>
+              <option value="legendary">Legendary</option>
+            </select>
+          </div>
+          <div class="mint-preview">
+            <h4>Live Preview:</h4>
+            <div class="preview-card">
+              <div class="preview-image">🖼️</div>
+              <div class="preview-info">
+                <div class="preview-name">Asset Name</div>
+                <div class="preview-category">Category</div>
+                <div class="preview-rarity">Common</div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <button id="mintBtn" class="btn">Mint Asset ✨</button>
+            <button id="clearMintBtn" class="btn outline">🗑️ Clear</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- My Assets Section -->
+      <section class="card">
+        <h2>🏠 My Assets</h2>
+        <div id="myAssets" class="asset-grid"></div>
+      </section>
+
+      <!-- Marketplace Section -->
+      <section class="card">
+        <h2>🏪 Marketplace</h2>
+        <div id="marketplace" class="asset-grid"></div>
+      </section>
+    </main>
+
+    <footer class="app-footer">
+      <span>Educational demo • Local in-browser ledger • No wallet required • Created by Amit Kadam</span>
+      <div class="right">
+        <a href="#" id="exportState">Export State</a> · <a href="#" id="importState">Import State</a>
+      </div>
+    </footer>
+  </div>
+
+  <!-- Help Modal -->
+  <dialog id="helpModal" class="modal">
+    <h3>Welcome to the Digital Asset Marketplace!</h3>
+    <p>This is a demo blockchain-based marketplace where you can:</p>
+    <ul>
+      <li>🔐 Create accounts and manage wallets</li>
+      <li>🎨 Mint unique digital assets (NFTs)</li>
+      <li>💰 Buy and sell assets in the marketplace</li>
+      <li>↗️ Transfer assets to other users</li>
+      <li>⛓️ Explore the blockchain ledger</li>
+    </ul>
+    <p><strong>Demo Accounts:</strong></p>
+    <ul>
+      <li>Username: <code>alice</code> • Password: <code>alice123</code></li>
+      <li>Username: <code>bob</code> • Password: <code>bob123</code></li>
+      <li>Username: <code>cara</code> • Password: <code>cara123</code></li>
+    </ul>
+    <p><strong>Admin Panel:</strong> Click "Reveal All Users & Passwords" and enter PIN <code>7829</code></p>
+    <p><em>This is an educational demo. All data is stored locally in your browser.</em></p>
+    <button onclick="this.closest('dialog').close()" class="btn">Got it!</button>
+  </dialog>
+
+  <!-- Blockchain Explorer Modal -->
+  <dialog id="explorerModal" class="modal large">
+    <h3>⛓️ Blockchain Explorer</h3>
+    <p>Browse all blocks and transactions in the blockchain:</p>
+    <div id="chainView" class="chain"></div>
+    <button onclick="this.closest('dialog').close()" class="btn">Close</button>
+  </dialog>
+
+  <script src="script.js"></script>
+</body>
+</html>
