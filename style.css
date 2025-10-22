@@ -483,3 +483,113 @@ select{
 @keyframes spin{
   to{transform:rotate(360deg)}
 }
+
+/* Responsive Design Rules */
+@media screen and (max-width: 768px) {
+  .grid {
+    padding: 10px;
+    gap: 10px;
+  }
+
+  .card {
+    grid-column: span 12 !important; /* Force full width on mobile */
+    padding: 15px;
+  }
+
+  .app-header {
+    flex-direction: column;
+    padding: 10px;
+    gap: 10px;
+    text-align: center;
+  }
+
+  .app-header h1 {
+    font-size: 1.5rem;
+  }
+
+  .crypto-ticker {
+    flex-direction: column;
+    gap: 5px;
+    font-size: 0.9rem;
+  }
+
+  .right {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+  }
+
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+
+  .asset-grid {
+    grid-template-columns: repeat(1, 1fr);
+  }
+
+  .auth-box {
+    width: 90%;
+    max-width: none;
+    margin: 10px;
+    padding: 15px;
+  }
+
+  .row {
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  .row label {
+    width: 100%;
+  }
+
+  .row input,
+  .row select,
+  .row textarea {
+    width: 100%;
+  }
+
+  .mint-preview {
+    padding: 10px;
+  }
+
+  .app-footer {
+    flex-direction: column;
+    text-align: center;
+    gap: 10px;
+    padding: 10px;
+  }
+
+  .app-footer .right {
+    justify-content: center;
+  }
+
+  /* Modal adjustments */
+  .modal {
+    width: 90%;
+    max-width: none;
+    margin: 10px;
+  }
+
+  .modal.large {
+    width: 95%;
+  }
+}
+
+/* Additional adjustments for very small screens */
+@media screen and (max-width: 480px) {
+  .auth-tabs {
+    flex-direction: column;
+  }
+
+  .stats-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .btn {
+    width: 100%;
+    margin: 5px 0;
+  }
+}
